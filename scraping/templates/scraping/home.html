@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %} Home {% endblock %}
+{% block content %}
+    {% for obj in object_list %}
+        <div class="card text-bg-dark my-2" >
+          <h5 class="card-header"><a href="{{ obj.url }}">{{ obj.title }}</a></h5>
+          <div class="card-body">
+              <h4>{{ obj.company }} </h4>
+            <p class="card-text">{{ obj.description }}</p>
+              <p>{{ obj.city.name }} | {{ obj.city.language }} <small>{{ obj.timestamp|date:"d-m-Y" }} </small>  </p>
+          </div>
+        </div>
+        {% empty %}
+            <div class="mx-auto">
+                <h3>К сожалению, по Вашему запросу ничего не найдено</h3>
+            </div>
+
+    {% endfor %}
+
+<div class="row" >
+    <div class="col-md-6 mx-auto">
+        <form method="get" action="" class="mb-3" style="color:#fff; border-color:#61616"> {% csrf_token %}
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
