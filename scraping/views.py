@@ -7,14 +7,14 @@ from .models import Vacancy
 def home_view(request):
     form = FindForm()
     city = request.GET.get('city')
-    language = request.GET.get('language')
+    speciality = request.GET.get('speciality')
     qs = []
-    if city or language:
+    if city or speciality:
         _filter = {}
         if city:
             _filter['city__slug'] = city
-        if language:
-            _filter['language__slug'] = language
+        if speciality:
+            _filter['speciality__slug'] = speciality
 
         qs = Vacancy.objects.filter(**_filter)
     return render(request, 'scraping/home.html', {'object_list': qs, 'form': form})

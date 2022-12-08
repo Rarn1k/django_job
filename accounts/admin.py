@@ -46,6 +46,12 @@ class UserChangeForm(forms.ModelForm):
         model = MyUser
         fields = ('email', 'password', 'is_active', 'is_admin')
 
+    def clean_password(self):
+        # Regardless of what the user provides, return the initial value.
+        # This is done here, rather than on the field, because the
+        # field does not have access to the initial value
+        return self.initial["password"]
+
 
 class UserAdmin(BaseUserAdmin):
     # The forms to add and change user instances
@@ -55,10 +61,11 @@ class UserAdmin(BaseUserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('email', 'is_admin')
+    list_display = ('email', 'is_admin', 'city', 'speciality', 'send_email')
     list_filter = ('is_admin',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
+        ('Vacancy', {'fields': ('city', 'speciality', 'send_email')}),
         ('Permissions', {'fields': ('is_admin',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
