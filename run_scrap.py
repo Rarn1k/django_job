@@ -11,7 +11,7 @@ import django
 django.setup()
 
 from scraping.parsers import *
-from scraping.models import Vacancy, City, Language
+from scraping.models import Vacancy, City, Language, Error
 
 parsers = (
     (hh, 'https://kazan.hh.ru/search/vacancy?area=88&search_field=name&search_field=company_name&search_field=description&text=python&from=suggest_post'),
@@ -33,6 +33,8 @@ for job in jobs:
     except DatabaseError:
         pass
 
+if errors:
+    er = Error(data=errors).save()
 # h = codecs.open('work.txt', 'w', 'utf-8')
 # h.write(str(jobs))
 # h.close()

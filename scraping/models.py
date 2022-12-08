@@ -56,3 +56,11 @@ class Vacancy(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Error(models.Model):
+    timestamp = models.DateField(auto_now_add=True)
+    data = models.JSONField()
+
+    def __str__(self):
+        return str(self.timestamp)
