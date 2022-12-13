@@ -16,7 +16,7 @@ headers = [
 ]
 
 
-def hh(url):
+def hh(url, city=None, speciality=None):
     jobs = []
     errors = []
     if url:
@@ -31,9 +31,14 @@ def hh(url):
                     title = header.span.a.text
                     href = header.a['href']
                     content = div.find('div', attrs={'class': 'g-user-content'}).text
-                    company = div.find('div', attrs={'class': 'vacancy-serp-item__meta-info-company'}).text
+                    try:
+                        company = div.find('div', attrs={'class': 'vacancy-serp-item__meta-info-company'}).text
+                    except AttributeError:
+                        company = 'No name'
+                        pass
                     jobs.append({'title': title, 'url': href,
-                                 'description': content, 'company': company})
+                                 'description': content, 'company': company,
+                                 'city_id': city, 'speciality_id': speciality})
             else:
                 errors.append({'url': url, 'title': "Div does not exists"})
         else:
@@ -42,7 +47,7 @@ def hh(url):
     return jobs, errors
 
 
-def rabota(url):
+def rabota(url, city=None, speciality=None):
     jobs = []
     errors = []
     domain = 'https://kazan.rabota.ru'
@@ -61,11 +66,14 @@ def rabota(url):
                     title = header.text
                     href = header.a['href']
                     content = article.find('div', attrs={'class': 'vacancy-preview-card__short-description'}).text
-                    company = article.find('span', attrs={'class': 'vacancy-preview-card__company-name'}).text
-                    jobs.append({'title': title,
-                                 'url': domain + href,
-                                 'description': content,
-                                 'company': company})
+                    try:
+                        company = article.find('span', attrs={'class': 'vacancy-preview-card__company-name'}).text
+                    except AttributeError:
+                        company = 'No name'
+                        pass
+                    jobs.append({'title': title, 'url': domain + href,
+                                 'description': content, 'company': company,
+                                 'city_id': city, 'speciality_id': speciality})
             else:
                 errors.append({'url': url, 'title': "Div does not exists"})
         else:
@@ -74,7 +82,7 @@ def rabota(url):
     return jobs, errors
 
 
-def superjob(url):
+def superjob(url, city=None, speciality=None):
     jobs = []
     errors = []
     domain = 'https://kazan.superjob.ru'
@@ -92,9 +100,14 @@ def superjob(url):
                     title = header.text
                     href = header.a['href']
                     content = div.find('span', attrs={'class': '_3camv x_rU7 _1vJ_t _2myJ9 _1zaXV'}).text
-                    company = div.find('span', attrs={'class': 'f-test-text-vacancy-item-company-name'}).text
+                    try:
+                        company = div.find('span', attrs={'class': 'f-test-text-vacancy-item-company-name'}).text
+                    except AttributeError:
+                        company = 'No name'
+                        pass
                     jobs.append({'title': title, 'url': domain + href,
-                                 'description': content, 'company': company})
+                                 'description': content, 'company': company,
+                                 'city_id': city, 'speciality_id': speciality})
             else:
                 errors.append({'url': url, 'title': "Div does not exists"})
         else:

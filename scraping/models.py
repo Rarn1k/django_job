@@ -6,8 +6,9 @@ from scraping.utility import from_cyrillic_to_eng
 def default_urls():
     return {"hh": '', "rabota": '', "superjob": ''}
 
+
 class City(models.Model):
-    name = models.CharField(max_length=50,  verbose_name='Название населенного пункта',  unique=True)
+    name = models.CharField(max_length=50, verbose_name='Название населенного пункта', unique=True)
     slug = models.CharField(max_length=50, blank=True, unique=True)
 
     class Meta:
@@ -52,6 +53,7 @@ class Vacancy(models.Model):
     class Meta:
         verbose_name = 'Вакансия'
         verbose_name_plural = 'Вакансии'
+        ordering = ['-timestamp']
 
     def __str__(self):
         return self.title
