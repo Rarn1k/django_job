@@ -14,7 +14,7 @@ import django
 django.setup()
 
 from scraping.parsers import *
-from scraping.models import Vacancy, City, Speciality, Error, Url
+from scraping.models import Vacancy, Error, Url
 
 User = get_user_model()
 
@@ -57,20 +57,11 @@ jobs, errors = [], []
 settings = get_settings()
 url_list = get_urls(settings)
 
-# city = City.objects.filter(slug='kazan').first()
-# speciality = Speciality.objects.filter(slug='python').first()
-
 loop = asyncio.get_event_loop()
 data_tasks = [(func, elem['url_data'][key], elem['city'], elem['speciality'])
               for elem in url_list
               for func, key in parsers]
 tasks = asyncio.wait([loop.create_task(main(x)) for x in data_tasks])
-# for elem in url_list:
-#     for func, key in parsers:
-#         url = elem['url_data'][key]
-#         j, e = func(url, city=elem['city'], speciality=elem['speciality'])
-#         jobs += j
-#         errors += e
 
 loop.run_until_complete(tasks)
 loop.close()
@@ -84,6 +75,3 @@ for job in jobs:
 
 if errors:
     er = Error(data=errors).save()
-# h = codecs.open('work.txt', 'w', 'utf-8')
-# h.write(str(jobs))
-# h.close()
