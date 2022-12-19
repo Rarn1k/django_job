@@ -1,7 +1,10 @@
 import asyncio
 import os
 import sys
+import django
 
+from scraping.parsers import *
+from scraping.models import Vacancy, Error, Url
 from django.contrib.auth import get_user_model
 from django.db import DatabaseError
 
@@ -9,12 +12,7 @@ proj = os.path.dirname(os.path.abspath('manage.py'))
 sys.path.append(proj)
 os.environ["DJANGO_SETTINGS_MODULE"] = "job_search.settings"
 
-import django
-
 django.setup()
-
-from scraping.parsers import *
-from scraping.models import Vacancy, Error, Url
 
 User = get_user_model()
 
