@@ -23,7 +23,7 @@ def list_view(request):
             _filter['speciality__slug'] = speciality
 
         qs = Vacancy.objects.filter(**_filter)
-        paginator = Paginator(qs, 15)  # Show 15 contacts per page.
+        paginator = Paginator(qs, 15)
 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)

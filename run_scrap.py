@@ -3,8 +3,6 @@ import os
 import sys
 import django
 
-from scraping.parsers import *
-from scraping.models import Vacancy, Error, Url
 from django.contrib.auth import get_user_model
 from django.db import DatabaseError
 
@@ -13,6 +11,8 @@ sys.path.append(proj)
 os.environ["DJANGO_SETTINGS_MODULE"] = "job_search.settings"
 
 django.setup()
+from scraping.parsers import *
+from scraping.models import Vacancy, Error, Url
 
 User = get_user_model()
 

@@ -58,8 +58,7 @@ def update_view(request):
 
         form = UserUpdateForm(initial={'city': user.city, 'speciality': user.speciality, 'send_email': user.send_email})
         return render(request, 'accounts/update.html', {'form': form})
-    else:
-        return redirect('accounts:login')
+    return redirect('accounts:login')
 
 
 def delete_view(request):
