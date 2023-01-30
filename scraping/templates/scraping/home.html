@@ -1,29 +1,19 @@
 {% extends "base.html" %}
 {% block title %} Home {% endblock %}
 {% block content %}
-    {% for obj in object_list %}
-        <div class="card text-bg-dark my-2" >
-          <h5 class="card-header"><a href="{{ obj.url }}">{{ obj.title }}</a></h5>
-          <div class="card-body">
-              <h4>{{ obj.company }} </h4>
-            <p class="card-text">{{ obj.description }}</p>
-              <p>{{ obj.city.name }} | {{ obj.city.language }} <small>{{ obj.timestamp|date:"d-m-Y" }} </small>  </p>
-          </div>
-        </div>
-        {% empty %}
-            <div class="mx-auto">
-                <h3>К сожалению, по Вашему запросу ничего не найдено</h3>
-            </div>
 
-    {% endfor %}
+<div class="row">
+    <div class="col"><h2 class="text-center my-3">Сервис по сбору и рассылке вакансий</h2></div>
+</div>
 
 <div class="row" >
-    <div class="col-md-6 mx-auto">
-        <form method="get" action="" class="mb-3" style="color:#fff; border-color:#61616"> {% csrf_token %}
+    <div class="col-md-8 mx-auto">
+        <h4 class="my-2">Для просмотра доступных вакансий, заполните форму хотя бы по одному из полей</h4>
+        <form method="get" action="{% url 'list' %}" class="mb-3" style="color:#fff; border-color:#61616">
             <div class="form-group">
                 {{ form.as_p }}
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Найти</button>
         </form>
     </div>
 </div>

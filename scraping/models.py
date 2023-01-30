@@ -4,13 +4,11 @@ from scraping.utility import from_cyrillic_to_eng
 
 
 def default_urls():
-    return {"hh": "", "rabota": "", "dou": "", "djinni": ""}
+    return {"hh": '', "rabota": '', "superjob": ''}
 
 
 class City(models.Model):
-    name = models.CharField(max_length=50,
-                            verbose_name='Название населенного пункта',
-                            unique=True)
+    name = models.CharField(max_length=50, verbose_name='Название населенного пункта', unique=True)
     slug = models.CharField(max_length=50, blank=True, unique=True)
 
     class Meta:
@@ -26,15 +24,13 @@ class City(models.Model):
         super().save(*args, **kwargs)
 
 
-class Language(models.Model):
-    name = models.CharField(max_length=50,
-                            verbose_name='Язык программирования',
-                            unique=True)
+class Speciality(models.Model):
+    name = models.CharField(max_length=50, verbose_name='Специальность', unique=True)
     slug = models.CharField(max_length=50, blank=True, unique=True)
 
     class Meta:
-        verbose_name = 'Язык программирования'
-        verbose_name_plural = 'Языки программирования'
+        verbose_name = 'Специальность'
+        verbose_name_plural = 'Специальности'
 
     def __str__(self):
         return self.name
@@ -51,13 +47,14 @@ class Vacancy(models.Model):
     company = models.CharField(max_length=250, verbose_name='Компания')
     description = models.TextField(verbose_name='Описание')
     city = models.ForeignKey('City', on_delete=models.CASCADE, verbose_name='Город')
-    language = models.ForeignKey('Language', on_delete=models.CASCADE, verbose_name='Язык программирования')
+    speciality = models.ForeignKey('Speciality', on_delete=models.CASCADE, verbose_name='Специальность')
     timestamp = models.DateField(auto_now_add=True)
 
     class Meta:
         verbose_name = 'Вакансия'
         verbose_name_plural = 'Вакансии'
-        ordering = '-timestamp'
+        ordering = ['-timestamp']
+
 
     def __str__(self):
         return self.title
@@ -72,11 +69,9 @@ class Error(models.Model):
 
 
 class Url(models.Model):
-    city = models.ForeignKey('City', on_delete=models.CASCADE,
-                             verbose_name='Город')
-    language = models.ForeignKey('Language', on_delete=models.CASCADE,
-                                 verbose_name='Язык программирования')
+    city = models.ForeignKey('City', on_delete=models.CASCADE, verbose_name='Город')
+    speciality = models.ForeignKey('Speciality', on_delete=models.CASCADE, verbose_name='Специальность')
     url_data = models.JSONField(default=default_urls)
 
     class Meta:
-        unique_together = ("city", "language")
+        unique_together = ('city', 'speciality')

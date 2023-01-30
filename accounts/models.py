@@ -22,11 +22,10 @@ class MyUserManager(BaseUserManager):
 
 class MyUser(AbstractBaseUser):
     email = models.EmailField(verbose_name='email address', max_length=255, unique=True)
-
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=True)
     city = models.ForeignKey('scraping.City', on_delete=models.SET_NULL, null=True, blank=True)
-    language = models.ForeignKey('scraping.Language', on_delete=models.SET_NULL, null=True, blank=True)
+    speciality = models.ForeignKey('scraping.Speciality', on_delete=models.SET_NULL, null=True, blank=True)
     send_email = models.BooleanField(default=True)
 
     objects = MyUserManager()

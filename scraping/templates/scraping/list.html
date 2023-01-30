@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %} Home {% endblock %}
+{% block content %}
+    {% for obj in object_list %}
+        <div class="card text-bg-dark my-2" >
+          <h5 class="card-header"><a href="{{ obj.url }}">{{ obj.title }}</a></h5>
+          <div class="card-body">
+              <h4>{{ obj.company }} </h4>
+            <p class="card-text">{{ obj.description }}</p>
+              <p>{{ obj.city.name }} | {{ obj.city.speciality }} <small>{{ obj.timestamp|date:"d-m-Y" }} </small>  </p>
+          </div>
+        </div>
+        {% empty %}
+            <div class="mx-auto">
+                <h3>К сожалению, по Вашему запросу ничего не найдено</h3>
+            </div>
+    {% endfor %}
+
+    {% if  object_list %}
+        <div class="row">
+            <div class="col">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination">
+                    {% if object_list.has_previous %}
+                        <li class="page-item">
+                              <a class="page-link" href="?city={{ city }}&speciality={{ speciality }}&page={{ object_list.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only"></span>
+                              </a>
+                        </li>
+                    {% endif %}
+                    {% for page in object_list.paginator.page_range %}
+                      <li class="page-item {% if page == object_list.number %} active {% endif %}">
+                          <a class="page-link" href="?city={{ city }}&speciality={{ speciality }}&page={{ page }}">{{ page }}</a>
+                      </li>
+                    {% endfor %}
+                    {% if object_list.has_next %}
+                      <li class="page-item">
+                          <a class="page-link" href="?city={{ city }}&speciality={{ speciality }}&page={{ object_list.next_page_number }}" aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                              <span class="sr-only"></span>
+                          </a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                </nav>
+
+
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="row" >
+        <div class="col-md-6 mx-auto">
+            <form method="get" action="{% url 'list' %}" class="mb-3" style="color:#fff; border-color:#61616">
+                <div class="form-group">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-primary">Найти</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
