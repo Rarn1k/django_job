@@ -6,9 +6,9 @@
 
 <div class="row ">
     <div class="col-md-8 mx-auto">
-        <h4 class="my-2">Настройки</h4>
+        <h4 class="my-2" >Настройки</h4>
     <form method="POST" action="">{% csrf_token %}
-        <div class="form-group">
+        <div class="form-group" style="color:#fff">
         {{ form.as_p }}
         </div>
         <button type="submit" class="btn btn-primary my-2">Сохранить</button>
@@ -16,6 +16,34 @@
     <form method="POST" action="{% url 'accounts:delete' %}">{% csrf_token %}
         <button type="submit" class="btn btn-danger my-2">Удалить профиль</button>
     </form>
+    </div>
+</div>
+
+
+<div class="row my-5">
+    <div class="col-md-8 mx-auto">
+        <p class="my-2" style="color:#fff">Если Вы не нашли подходящий набор Город, Специальность,
+            Вы можете заполнить форму ниже с Вашими пожеланиями. После того,
+            как необходимые данные будут добавлены, Вы получите
+            письмо на указанную Вами электронную почту.</p>
+        <p>
+
+          <button class="btn btn-success" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              Показать форму
+          </button>
+
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body" style="background-color: #696969; color:#fff">
+              <form method="POST" action="{% url 'accounts:contact' %} ">{% csrf_token %}
+                <div class="form-group">
+                {{ contact_form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-primary">Отправить</button>
+              </form>
+          </div>
+        </div>
+
     </div>
 </div>
 

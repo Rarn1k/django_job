@@ -27,11 +27,9 @@ class MyUser(AbstractBaseUser):
     city = models.ForeignKey('scraping.City', on_delete=models.SET_NULL, null=True, blank=True)
     speciality = models.ForeignKey('scraping.Speciality', on_delete=models.SET_NULL, null=True, blank=True)
     send_email = models.BooleanField(default=True)
-
     objects = MyUserManager()
-
     USERNAME_FIELD = 'email'
-    REQUAIRED_FIELDS = []
+    REQUAIRED_FIELDS = ['email']
 
     class Meta:
         verbose_name = 'Пользователь'

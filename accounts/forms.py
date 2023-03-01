@@ -8,8 +8,10 @@ User = get_user_model()
 
 
 class UserLoginForm(forms.Form):
-    email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    email = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     def clean(self):
         email = self.cleaned_data.get('email').strip()
@@ -57,3 +59,18 @@ class UserUpdateForm(forms.Form):
     class Meta:
         model = User
         fields = ('city', 'speciality', 'send_email')
+
+
+class ContactForm(forms.Form):
+    city = forms.CharField(
+        required=True, widget=forms.TextInput(attrs={'class': 'form-control'}),
+        label='Город'
+    )
+    speciality = forms.CharField(
+        required=True, widget=forms.TextInput(attrs={'class': 'form-control'}),
+        label='Специальность'
+    )
+    email = forms.EmailField(
+        label='Введите электронную почту', required=True, widget=forms.EmailInput(
+            attrs={'class': 'form-control'})
+    )

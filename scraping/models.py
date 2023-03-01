@@ -55,7 +55,6 @@ class Vacancy(models.Model):
         verbose_name_plural = 'Вакансии'
         ordering = ['-timestamp']
 
-
     def __str__(self):
         return self.title
 

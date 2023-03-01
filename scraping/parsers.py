@@ -48,8 +48,7 @@ def hh(url, city=None, speciality=None):
 
 
 def rabota(url, city=None, speciality=None):
-    jobs = []
-    errors = []
+    jobs, errors = [], []
     domain = 'https://kazan.rabota.ru'
     if url:
         resp = requests.get(url, headers=headers[randint(0, 2)])
@@ -65,26 +64,25 @@ def rabota(url, city=None, speciality=None):
                     header = article.find('h3')
                     title = header.text
                     href = header.a['href']
-                    content = article.find('div', attrs={'class': 'vacancy-preview-card__short-description'}).text
+                    content = article.find('div',
+                                           attrs={'class': 'vacancy-preview-card__short-description'}).text
                     try:
-                        company = article.find('span', attrs={'class': 'vacancy-preview-card__company-name'}).text
+                        company = article.find('span',
+                                               attrs={'class': 'vacancy-preview-card__company-name'}).text
                     except AttributeError:
                         company = 'No name'
                         pass
-                    jobs.append({'title': title, 'url': domain + href,
-                                 'description': content, 'company': company,
-                                 'city_id': city, 'speciality_id': speciality})
+                    jobs.append({'title': title, 'url': domain + href, 'description': content,
+                                 'company': company, 'city_id': city, 'speciality_id': speciality})
             else:
                 errors.append({'url': url, 'title': "Div does not exists"})
         else:
             errors.append({'url': url, 'title': "Page do not response"})
-
     return jobs, errors
 
 
 def superjob(url, city=None, speciality=None):
-    jobs = []
-    errors = []
+    jobs, errors = [], []
     domain = 'https://kazan.superjob.ru'
     if url:
         resp = requests.get(url, headers=headers[randint(0, 2)])
@@ -94,7 +92,8 @@ def superjob(url, city=None, speciality=None):
             if main_div:
                 div_lst = main_div.find_all('div', attrs={'class': 'f-test-search-result-item'})
                 for div in div_lst:
-                    header = div.find('span', attrs={'class': 'ALb1p _2itH9 _2R-HM _3i61M _2BeAM x_rU7 _1vJ_t DSYVK'})
+                    header = div.find('span',
+                                      attrs={'class': 'ALb1p _2itH9 _2R-HM _3i61M _2BeAM x_rU7 _1vJ_t DSYVK'})
                     if not header:
                         continue
                     title = header.text
@@ -112,7 +111,6 @@ def superjob(url, city=None, speciality=None):
                 errors.append({'url': url, 'title': "Div does not exists"})
         else:
             errors.append({'url': url, 'title': "Page do not response"})
-
     return jobs, errors
 
 
@@ -123,3 +121,4 @@ if __name__ == '__main__':
     h.write(str(jobs) + '\n')
     h.write(str(errors))
     h.close()
+
