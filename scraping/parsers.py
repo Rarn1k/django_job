@@ -55,7 +55,7 @@ def rabota(url, city=None, speciality=None):
         if resp.status_code == 200:
             soup = Bs(resp.content, 'html.parser')
             main_div = soup.find('div', attrs={'class': 'r-serp'})
-            p = main_div.find('div', attrs={'class': 'r-serp-similar-title r-serp__item'})
+            p = soup.find('div', attrs={'class': 'r-serp-similar-title r-serp__item'})
             if main_div:
                 article_lst = main_div.find_all('article', attrs={'data-key': True})
                 for article in article_lst:
@@ -88,17 +88,17 @@ def superjob(url, city=None, speciality=None):
         resp = requests.get(url, headers=headers[randint(0, 2)])
         if resp.status_code == 200:
             soup = Bs(resp.content, 'html.parser')
-            main_div = soup.find('div', attrs={'class': '_2dEhr _2qHsY _1oWry'})
+            main_div = soup.find('div', attrs={'class': '_3-q4I zw6Ta _3ybL_'})
             if main_div:
                 div_lst = main_div.find_all('div', attrs={'class': 'f-test-search-result-item'})
                 for div in div_lst:
                     header = div.find('span',
-                                      attrs={'class': 'ALb1p _2itH9 _2R-HM _3i61M _2BeAM x_rU7 _1vJ_t DSYVK'})
+                                      attrs={'class': '_1c5Bu _1Yga1 _1QFf5 _2MAQA _1m76X _3UZoC _3zdq9 _1_71a'})
                     if not header:
                         continue
                     title = header.text
                     href = header.a['href']
-                    content = div.find('span', attrs={'class': '_3camv x_rU7 _1vJ_t _2myJ9 _1zaXV'}).text
+                    content = div.find('span', attrs={'class': 'RRZVI _3UZoC _3zdq9 _3iH_l _3u9kN'}).text
                     try:
                         company = div.find('span', attrs={'class': 'f-test-text-vacancy-item-company-name'}).text
                     except AttributeError:
@@ -115,8 +115,8 @@ def superjob(url, city=None, speciality=None):
 
 
 if __name__ == '__main__':
-    url = 'https://kazan.rabota.ru/vacancy/?query=python&sort=relevance'
-    jobs, errors = rabota(url)
+    url = 'https://kazan.hh.ru/search/vacancy?area=88&search_field=name&search_field=company_name&search_field=description&enable_snippets=true&text=Java&ored_clusters=true'
+    jobs, errors = hh(url)
     h = codecs.open('work.txt', 'w', 'utf-8')
     h.write(str(jobs) + '\n')
     h.write(str(errors))

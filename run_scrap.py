@@ -38,7 +38,7 @@ def get_urls(_settings):
     urls = []
     for pair in _settings:
         if pair in url_dict:
-            tmp = {'city': pair[0], 'language': pair[1]}
+            tmp = {'city': pair[0], 'speciality': pair[1]}
             url_data = url_dict.get(pair)
             if url_data:
                 tmp['url_data'] = url_dict.get(pair)
@@ -55,7 +55,8 @@ async def main(value):
 settings = get_settings()
 url_list = get_urls(settings)
 
-loop = asyncio.get_event_loop()
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
 data_tasks = [(func, elem['url_data'][key], elem['city'], elem['speciality'])
               for elem in url_list
               for func, key in parsers]
